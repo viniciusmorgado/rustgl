@@ -1,0 +1,21 @@
+[package]
+name = "rustgl"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+gl = "0.14.0"
+glfw = "0.60.0"
+
+[profile.dev]
+opt-level = 1          # a little optimization, much faster than 3
+debug = true
+incremental = true     # enables incremental compilation
+codegen-units = 16     # compile multiple crates in parallel
+lto = false            # no link-time optimization in dev
+
+[profile.release]
+opt-level = 3
+debug = false
+lto = true
+codegen-units = 1      # better optimization in release
