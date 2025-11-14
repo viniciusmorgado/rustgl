@@ -5,17 +5,25 @@ edition = "2024"
 
 [dependencies]
 gl = "0.14.0"
+gl_generator = "0.14.0"
+gl_loader = "0.1.2"
 glfw = "0.60.0"
+# glad-gl = { path = "../glad-gl" }
+
+[profile.dev.package."*"]
+opt-level = 3
+debug = true
+incremental = true
+codegen-units = 16
 
 [profile.dev]
-opt-level = 1          # a little optimization, much faster than 3
+opt-level = 1
 debug = true
-incremental = true     # enables incremental compilation
-codegen-units = 16     # compile multiple crates in parallel
-lto = false            # no link-time optimization in dev
+lto = true
+codegen-units = 16
 
 [profile.release]
 opt-level = 3
 debug = false
 lto = true
-codegen-units = 1      # better optimization in release
+codegen-units = 1
