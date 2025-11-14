@@ -1,9 +1,15 @@
+use gl::{
+    CreateShader, ShaderSource, VERTEX_SHADER,
+    types::{GLfloat, GLuint},
+};
 use glfw::{
     Action, Context, Key, OpenGlProfileHint, Window, WindowEvent, WindowHint, WindowMode, init,
 };
 
 extern crate gl;
 extern crate glfw;
+
+mod shader;
 
 fn main() {
     // Initialize the GLFW library (no window or OpenGL context is created yet)
@@ -15,9 +21,21 @@ fn main() {
     // Select the Core profile (modern OpenGL functions only)
     glfw.window_hint(WindowHint::OpenGlProfile(OpenGlProfileHint::Core));
 
+    let vertices: Vec<GLfloat> = vec![
+        -0.5,
+        -0.5 * 3.0_f32.sqrt() / 3.0,
+        0.0,
+        -0.5,
+        -0.5 * 3.0_f32.sqrt() / 3.0,
+        0.0,
+        -0.0,
+        -0.5 * 3.0_f32.sqrt() * 2.0 / 3.0,
+        0.0,
+    ];
+
     // Create a window and its associated OpenGL context
     let (mut window, events) = glfw
-        .create_window(800, 800, "RustGL", WindowMode::Windowed)
+        .create_window(1920, 1080, "RustGL", WindowMode::Windowed)
         .expect("Failed to create GLFW window.");
 
     // Make this window's context the active OpenGL context
@@ -40,6 +58,11 @@ fn main() {
     unsafe {
         gl::Viewport(0, 0, 800, 800);
     }
+
+    let vertex_shader: GLuint = unsafe { CreateShader(VERTEX_SHADER) };
+    let source_ptr = shader::VERTEX_SHADER_SOURCE.as_ptr() as *const i8;
+
+    unsafe { ShaderSource(vertex_shader, 1, &source_ptr, std::ptr::null()) };
 
     // Main loop
     while !window.should_close() {
