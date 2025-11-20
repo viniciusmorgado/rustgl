@@ -5,7 +5,7 @@ void main()
     gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
 }"#;
 
-const FRAGMENT_SHADER_SOURCE: &str = r#"#version 330 core
+pub const FRAGMENT_SHADER_SOURCE: &str = r#"#version 330 core
 out vec4 FragColor;
 void main()
 {
